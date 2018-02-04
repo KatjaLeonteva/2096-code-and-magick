@@ -35,15 +35,23 @@ var getRandomElement = function (arr) {
 };
 
 /**
- * Возвращает случайный элемент из массива
- * Удаляет элемент, чтобы исключить повторения
+ * Возвращает уникальное сочетание имени и фамилии
  *
- * @param {array} arr Массив для поиска элемента.
- * @return {string} Случайный элемент массива.
+ * @param {array} firstNames Массив имен.
+ * @param {array} lastNames Массив фамилий.
+ * @param {array} usedFullNames Массив существующих имен + фамилий для сравнения.
+ * @return {string} newName Новое уникальное имя + фамилия.
  */
-var getRandomElementUnique = function (arr) {
-  var removedElements = arr.splice(getRandomInt(0, arr.length), 1);
-  return removedElements[0];
+var getUniqueWizardName = function (firstNames, lastNames, usedFullNames) {
+  var newName = getRandomElement(firstNames) + ' ' + getRandomElement(lastNames);
+
+  if (usedFullNames.indexOf(newName) > -1) {
+    getUniqueWizardName(firstNames, lastNames, usedFullNames);
+  } else {
+    usedFullNames.push(newName);
+  }
+
+  return newName;
 };
 
 /**
@@ -51,19 +59,21 @@ var getRandomElementUnique = function (arr) {
  * которые описывают похожих персонажей
  *
  * @param {number} wizardsNum Количество волшебников.
+ * @param {array} wizardFirstNames Возможные имена волшебников.
+ * @param {array} wizardLastNames Возможные фамилии волшебников.
+ * @param {array} wizardEyesColors Возможные цвета глаз волшебников.
+ * @param {array} wizardCoatColors Возможные цвета мантии волшебников.
  * @return {array} wizardsData Массив объектов с данными волшебников.
  */
-var generateWizards = function (wizardsNum) {
+var generateWizards = function (wizardsNum, wizardFirstNames, wizardLastNames, wizardEyesColors, wizardCoatColors) {
   var wizardsData = [];
-
-  var wizardsFirstNamesCopy = WIZARD_FIRST_NAMES.slice();
-  var wizardsLastNamesCopy = WIZARD_LAST_NAMES.slice();
+  var usedWizardNames = [];
 
   for (var i = 0; i < wizardsNum; i++) {
     var wizard = {};
-    wizard.name = getRandomElementUnique(wizardsFirstNamesCopy) + ' ' + getRandomElementUnique(wizardsLastNamesCopy);
-    wizard.coatColor = getRandomElement(WIZARD_COAT_COLOR);
-    wizard.eyesColor = getRandomElement(WIZARD_EYES_COLOR);
+    wizard.name = getUniqueWizardName(wizardFirstNames, wizardLastNames, usedWizardNames);
+    wizard.coatColor = getRandomElement(wizardCoatColors);
+    wizard.eyesColor = getRandomElement(wizardEyesColors);
     wizardsData[i] = wizard;
   }
 
@@ -107,7 +117,7 @@ var userDialog = document.querySelector('.setup');
 userDialog.classList.remove('hidden');
 
 // Генерируем волшебников случайным образом
-var wizards = generateWizards(WIZARDS_NUM);
+var wizards = generateWizards(WIZARDS_NUM, WIZARD_FIRST_NAMES, WIZARD_LAST_NAMES, WIZARD_EYES_COLOR, WIZARD_COAT_COLOR);
 
 // Отрисовываем волшебников
 renderWizards(wizards, WIZARDS_LIST_ELEMENT);
