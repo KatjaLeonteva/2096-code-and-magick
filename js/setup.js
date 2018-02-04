@@ -8,10 +8,43 @@ var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
 var NUM = 4;
 
 // Элемент, в который мы будем вставлять похожих волшебников
-var similarListElement = document.querySelector('.setup-similar-list');
+var WIZARDS_LIST_ELEMENT = document.querySelector('.setup-similar-list');
 
 // Шаблон, который будем копировать
-var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+var WIZARD_TEMPLATE = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+
+/**
+ * Возвращает случайное целое число между min (включая) и max (не включая)
+ *
+ * @param {number} min Минимальное значение.
+ * @param {number} max Максимальное значение.
+ * @return {number} Случайное число.
+ */
+var getRandomInt = function (min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+/**
+ * Возвращает случайный элемент из массива
+ *
+ * @param {array} arr Массив для поиска элемента.
+ * @return {string} Случайный элемент массива.
+ */
+var getRandomElement = function (arr) {
+  return arr[getRandomInt(0, arr.length)];
+};
+
+/**
+ * Возвращает случайный элемент из массива
+ * Удаляет элемент, чтобы исключить повторения
+ *
+ * @param {array} arr Массив для поиска элемента.
+ * @return {string} Случайный элемент массива.
+ */
+var getRandomElementUnique = function (arr) {
+  var removedElements = arr.splice(getRandomInt(0, arr.length), 1);
+  return removedElements[0];
+};
 
 /**
  * Создает массив, состоящий из случайно сгенерированных объектов,
@@ -22,11 +55,14 @@ var similarWizardTemplate = document.querySelector('#similar-wizard-template').c
 var generateWizards = function () {
   var wizardsData = [];
 
+  var wizardsFirstNamesCopy = WIZARD_FIRST_NAMES.slice();
+  var wizardsLastNamesCopy = WIZARD_LAST_NAMES.slice();
+
   for (var i = 0; i < NUM; i++) {
     var wizard = {};
-    wizard.name = WIZARD_FIRST_NAMES[getRandomInt(WIZARD_FIRST_NAMES.length)] + ' ' + WIZARD_LAST_NAMES[getRandomInt(WIZARD_LAST_NAMES.length)];
-    wizard.coatColor = WIZARD_COAT_COLOR[getRandomInt(WIZARD_COAT_COLOR.length)];
-    wizard.eyesColor = WIZARD_EYES_COLOR[getRandomInt(WIZARD_EYES_COLOR.length)];
+    wizard.name = getRandomElementUnique(wizardsFirstNamesCopy) + ' ' + getRandomElementUnique(wizardsLastNamesCopy);
+    wizard.coatColor = getRandomElement(WIZARD_COAT_COLOR);
+    wizard.eyesColor = getRandomElement(WIZARD_EYES_COLOR);
     wizardsData[i] = wizard;
   }
 
@@ -40,7 +76,7 @@ var generateWizards = function () {
  * @return {Node} wizardElement DOM элемент.
  */
 var renderWizard = function (wizardData) {
-  var wizardElement = similarWizardTemplate.cloneNode(true);
+  var wizardElement = WIZARD_TEMPLATE.cloneNode(true);
 
   wizardElement.querySelector('.setup-similar-label').textContent = wizardData.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizardData.coatColor;
@@ -53,15 +89,16 @@ var renderWizard = function (wizardData) {
  * Вставляет элементы волшебников в DOM
  *
  * @param {array} wizardsArr Массив объектов, описывающих волшебников.
+ * @param {Node} wizardsListElement Элемент для вставки.
  */
-var renderWizards = function (wizardsArr) {
+var renderWizards = function (wizardsArr, wizardsListElement) {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < wizardsArr.length; i++) {
     fragment.appendChild(renderWizard(wizardsArr[i]));
   }
 
-  similarListElement.appendChild(fragment);
+  wizardsListElement.appendChild(fragment);
 };
 
 // Показываем окно настроек пользователя
@@ -72,18 +109,7 @@ userDialog.classList.remove('hidden');
 var wizards = generateWizards();
 
 // Отрисовываем волшебников
-renderWizards(wizards);
+renderWizards(wizards, WIZARDS_LIST_ELEMENT);
 
 // Показываем блок с похожими персонажами
 document.querySelector('.setup-similar').classList.remove('hidden');
-
-/**
- * Вспомогательная функция
- * Возвращает случайное целое число между 0 (включительно) и max (не включая max)
- *
- * @param {number} max Максимальное значение.
- * @return {number} Случайное число.
- */
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
