@@ -1,11 +1,11 @@
 'use strict';
 
 // Тестовые данные
+var WIZARDS_NUM = 4;
 var WIZARD_FIRST_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var WIZARD_LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
-var NUM = 4;
 
 // Элемент, в который мы будем вставлять похожих волшебников
 var WIZARDS_LIST_ELEMENT = document.querySelector('.setup-similar-list');
@@ -50,15 +50,16 @@ var getRandomElementUnique = function (arr) {
  * Создает массив, состоящий из случайно сгенерированных объектов,
  * которые описывают похожих персонажей
  *
+ * @param {number} wizardsNum Количество волшебников.
  * @return {array} wizardsData Массив объектов с данными волшебников.
  */
-var generateWizards = function () {
+var generateWizards = function (wizardsNum) {
   var wizardsData = [];
 
   var wizardsFirstNamesCopy = WIZARD_FIRST_NAMES.slice();
   var wizardsLastNamesCopy = WIZARD_LAST_NAMES.slice();
 
-  for (var i = 0; i < NUM; i++) {
+  for (var i = 0; i < wizardsNum; i++) {
     var wizard = {};
     wizard.name = getRandomElementUnique(wizardsFirstNamesCopy) + ' ' + getRandomElementUnique(wizardsLastNamesCopy);
     wizard.coatColor = getRandomElement(WIZARD_COAT_COLOR);
@@ -106,7 +107,7 @@ var userDialog = document.querySelector('.setup');
 userDialog.classList.remove('hidden');
 
 // Генерируем волшебников случайным образом
-var wizards = generateWizards();
+var wizards = generateWizards(WIZARDS_NUM);
 
 // Отрисовываем волшебников
 renderWizards(wizards, WIZARDS_LIST_ELEMENT);
