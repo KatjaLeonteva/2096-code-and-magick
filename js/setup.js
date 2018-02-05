@@ -1,7 +1,7 @@
 'use strict';
 
 // Тестовые данные
-var WIZARDS_NUM = 4;
+var WIZARDS_NUM = 6;
 var WIZARD_FIRST_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var WIZARD_LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
@@ -46,11 +46,10 @@ var getUniqueWizardName = function (firstNames, lastNames, usedFullNames) {
   var newName = getRandomElement(firstNames) + ' ' + getRandomElement(lastNames);
 
   if (usedFullNames.indexOf(newName) > -1) {
-    getUniqueWizardName(firstNames, lastNames, usedFullNames);
+    newName = getUniqueWizardName(firstNames, lastNames, usedFullNames);
   } else {
     usedFullNames.push(newName);
   }
-
   return newName;
 };
 
