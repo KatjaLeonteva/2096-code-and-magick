@@ -143,9 +143,9 @@ window.renderStatistics = function (ctx, names, times) {
     var barY = bottomY - barHeight - TEXT_HEIGHT;
     var barOpacity = getRandomArbitary(0.05, 1); // Прозрачность минимум 5%, иначе график плохо видно
 
-    ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    if (names[i] !== 'Вы') {
-      ctx.fillStyle = 'rgba(0, 0, 255, ' + barOpacity + ')';
+    ctx.fillStyle = 'rgba(0, 0, 255, ' + barOpacity + ')';
+    if (names[i] === 'Вы') {
+      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     }
     ctx.fillRect(barX, barY, BAR_WIDTH, barHeight);
 
