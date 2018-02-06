@@ -113,9 +113,24 @@ var renderWizards = function (wizardsArr, wizardsListElement, wizardTemplate) {
   wizardsListElement.appendChild(fragment);
 };
 
-// Показываем окно настроек пользователя
-var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
+var onSetupOpenClick = function () {
+  setupDialog.classList.remove('hidden');
+};
+
+var onSetupCloseClick = function () {
+  setupDialog.classList.add('hidden');
+};
+
+// Окно настроек пользователя
+var setupDialog = document.querySelector('.setup');
+
+// Окно настроек открывается по нажатию на блок с иконкой пользователя
+var setupOpen = document.querySelector('.setup-open');
+setupOpen.addEventListener('click', onSetupOpenClick);
+
+// Окно настроек закрывается по нажатию на крестик, расположенный внутри кона
+var setupClose = setupDialog.querySelector('.setup-close');
+setupClose.addEventListener('click', onSetupCloseClick);
 
 // Генерируем волшебников случайным образом
 var wizards = generateWizards(WIZARDS_NUM, WIZARD_FIRST_NAMES, WIZARD_LAST_NAMES, WIZARD_EYES_COLOR, WIZARD_COAT_COLOR);
