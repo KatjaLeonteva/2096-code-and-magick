@@ -115,6 +115,12 @@ var renderWizards = function (wizardsArr, wizardsListElement, wizardTemplate) {
 
 var onSetupOpenClick = function () {
   setupDialog.classList.remove('hidden');
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 27) {
+      onSetupCloseClick();
+    }
+  });
 };
 
 var onSetupCloseClick = function () {
