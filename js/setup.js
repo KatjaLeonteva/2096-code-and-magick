@@ -13,6 +13,9 @@ var WIZARDS_LIST_ELEMENT = document.querySelector('.setup-similar-list');
 // Шаблон, который будем копировать
 var WIZARD_TEMPLATE = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
+var ESC_KEYCODE = '27';
+var ENTER_KEYCODE = '13';
+
 /**
  * Возвращает случайное целое число между min (включая) и max (не включая)
  *
@@ -113,18 +116,23 @@ var renderWizards = function (wizardsArr, wizardsListElement, wizardTemplate) {
   wizardsListElement.appendChild(fragment);
 };
 
-var onSetupOpenClick = function () {
-  setupDialog.classList.remove('hidden');
-
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 27) {
-      onSetupCloseClick();
-    }
-  });
+// Нажатие на escape
+var onPopupEscPress = function(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    onSetupCloseClick();
+  }
 };
 
+// Открытие окна настроек
+var onSetupOpenClick = function () {
+  setupDialog.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+// Закрытие окна настроек
 var onSetupCloseClick = function () {
   setupDialog.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
 };
 
 // Окно настроек пользователя
@@ -134,9 +142,24 @@ var setupDialog = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 setupOpen.addEventListener('click', onSetupOpenClick);
 
-// Окно настроек закрывается по нажатию на крестик, расположенный внутри кона
+// Окно настроек открывается по нажатию на enter, если фокус на иконке пользователя
+var setupOpenIcon = setupOpen.querySelector('.setup-open-icon');
+setupOpenIcon.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    onSetupOpenClick();
+  }
+});
+
+// Окно настроек закрывается по нажатию на крестик, расположенный внутри окна
 var setupClose = setupDialog.querySelector('.setup-close');
 setupClose.addEventListener('click', onSetupCloseClick);
+
+// Окно настроек закрывается по нажатию на enter, если фокус на крестике
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    onSetupCloseClick();
+  }
+});
 
 // Генерируем волшебников случайным образом
 var wizards = generateWizards(WIZARDS_NUM, WIZARD_FIRST_NAMES, WIZARD_LAST_NAMES, WIZARD_EYES_COLOR, WIZARD_COAT_COLOR);
