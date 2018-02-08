@@ -174,8 +174,15 @@ userNameInput.addEventListener('keydown', function (evt) {
   }
 });
 
+// Если фокус находится на поле ввода имени, то форма не отправляется по нажатию на enter
+userNameInput.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    evt.preventDefault();
+  }
+});
+
 // Валидация поля ввода имени
-userNameInput.addEventListener('invalid', function (evt) {
+userNameInput.addEventListener('invalid', function () {
   if (userNameInput.validity.tooShort) {
     userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
   } else if (userNameInput.validity.tooLong) {
@@ -202,7 +209,6 @@ setupDialog.querySelector('.wizard-coat').addEventListener('click', function (ev
   var newCoatColor = getRandomElement(WIZARD_COAT_COLOR);
   evt.target.style.fill = newCoatColor;
   setupDialog.querySelector('[name=coat-color]').value = newCoatColor;
-
 });
 
 // Изменение цвета глаз персонажа
