@@ -5,8 +5,6 @@
   var WIZARDS_NUM = 4;
   var WIZARD_FIRST_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
   var WIZARD_LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-  var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-  var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
 
   /**
    * Создает массив, состоящий из случайно сгенерированных объектов,
@@ -15,19 +13,17 @@
    * @param {number} wizardsNum Количество волшебников.
    * @param {array} wizardFirstNames Возможные имена волшебников.
    * @param {array} wizardLastNames Возможные фамилии волшебников.
-   * @param {array} wizardEyesColors Возможные цвета глаз волшебников.
-   * @param {array} wizardCoatColors Возможные цвета мантии волшебников.
    * @return {array} wizardsData Массив объектов с данными волшебников.
    */
-  var generateWizards = function (wizardsNum, wizardFirstNames, wizardLastNames, wizardEyesColors, wizardCoatColors) {
+  var generateWizards = function (wizardsNum, wizardFirstNames, wizardLastNames) {
     var wizardsData = [];
     var usedWizardNames = [];
 
     for (var i = 0; i < wizardsNum; i++) {
       var wizard = {};
       wizard.name = getUniqueWizardName(wizardFirstNames, wizardLastNames, usedWizardNames);
-      wizard.coatColor = window.utils.getRandomElement(wizardCoatColors);
-      wizard.eyesColor = window.utils.getRandomElement(wizardEyesColors);
+      wizard.coatColor = window.utils.getRandomColor('coat');
+      wizard.eyesColor = window.utils.getRandomColor('eyes');
       wizardsData[i] = wizard;
     }
 
@@ -54,7 +50,7 @@
   };
 
   // Генерируем волшебников случайным образом
-  var wizards = generateWizards(WIZARDS_NUM, WIZARD_FIRST_NAMES, WIZARD_LAST_NAMES, WIZARD_EYES_COLOR, WIZARD_COAT_COLOR);
+  var wizards = generateWizards(WIZARDS_NUM, WIZARD_FIRST_NAMES, WIZARD_LAST_NAMES);
 
   window.wizards = wizards;
 })();

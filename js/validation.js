@@ -1,11 +1,8 @@
 'use strict';
 
 (function () {
-  // Окно настроек пользователя
-  var setupDialog = document.querySelector('.setup');
-
-  // Поле ввода имени в окне настроек
-  var userNameInput = setupDialog.querySelector('.setup-user-name');
+  var setupForm = document.querySelector('.setup-wizard-form');
+  var userNameInput = setupForm.querySelector('.setup-user-name');
 
   // Валидация поля ввода имени
   userNameInput.addEventListener('invalid', function () {
