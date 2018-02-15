@@ -22,6 +22,8 @@
   // Закрытие окна настроек
   var closePopup = function () {
     setupDialog.classList.add('hidden');
+    setupDialog.style.top = '';
+    setupDialog.style.left = '';
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
@@ -66,6 +68,13 @@
       y: evt.clientY
     };
 
+    var limitCoords = {
+      minX: setupDialog.offsetWidth / 2,
+      maxX: window.innerWidth - setupDialog.offsetWidth / 2,
+      minY: 0,
+      maxY: window.innerHeight
+    };
+
     var dragged = false;
 
     var onMouseMove = function (moveEvt) {
@@ -82,8 +91,11 @@
         y: moveEvt.clientY
       };
 
-      setupDialog.style.top = (setupDialog.offsetTop - shift.y) + 'px';
-      setupDialog.style.left = (setupDialog.offsetLeft - shift.x) + 'px';
+      var dialogX = Math.min(Math.max((setupDialog.offsetLeft - shift.x), limitCoords.minX), limitCoords.maxX);
+      var dialogY = Math.min(Math.max((setupDialog.offsetTop - shift.y), limitCoords.minY), limitCoords.maxY);
+
+      setupDialog.style.left = dialogX + 'px';
+      setupDialog.style.top = dialogY + 'px';
     };
 
     var onMouseUp = function (upEvt) {
