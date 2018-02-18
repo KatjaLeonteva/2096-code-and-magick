@@ -26,4 +26,11 @@
       target.setCustomValidity('');
     }
   });
+
+  setupForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(setupForm), window.closeDialog, function (errorMessage) {
+      window.globalError(errorMessage);
+    });
+  });
 })();

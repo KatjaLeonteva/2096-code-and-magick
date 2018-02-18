@@ -1021,7 +1021,7 @@ input[type=radio]:checked + .review-mark-label
 }
 
 .error-message {
-  position: absolute;
+  position: fixed;
   width: 100%;
   left: 0;
   top: 0;
@@ -1029,4 +1029,5 @@ input[type=radio]:checked + .review-mark-label
   text-align: center;
   color: #fff;
   background: #da641a;
+  z-index: 100;
 }

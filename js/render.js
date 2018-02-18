@@ -44,6 +44,17 @@
     return wizardElement;
   };
 
+  /**
+   * Возвращает случайный элемент и удаляет его из исходного массива
+   *
+   * @param {array} arr Массив для поиска элемента.
+   * @return {string} Случайный элемент массива.
+   */
+  function getRandomElementUnique(arr) {
+    var removedEl = arr.splice(Math.random() * arr.length, 1);
+    return removedEl[0];
+  }
+
   var successHandler = function (response) {
     // Берем 4 произвольных записи из полученных данных
     var wizards = [];
@@ -59,23 +70,7 @@
     document.querySelector('.setup-similar').classList.remove('hidden');
   };
 
-  var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.classList.add('error-message');
-    node.textContent = errorMessage;
-    document.body.appendChild(node);
-  };
-
-  /**
-   * Возвращает случайный элемент и удаляет его из исходного массива
-   *
-   * @param {array} arr Массив для поиска элемента.
-   * @return {string} Случайный элемент массива.
-   */
-  function getRandomElementUnique(arr) {
-    var removedEl = arr.splice(Math.random() * arr.length, 1);
-    return removedEl[0];
-  }
-
-  window.backend.load(successHandler, errorHandler);
+  window.backend.load(successHandler, function (errorMessage) {
+    window.globalError(errorMessage);
+  });
 })();

@@ -33,7 +33,7 @@
       if (xhr.status === 200) {
         onLoad();
       } else {
-        onError();
+        onError('Данные не сохранились. Причина: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
     xhr.open('POST', 'https://js.dump.academy/code-and-magick');
