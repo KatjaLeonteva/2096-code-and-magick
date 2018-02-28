@@ -7,10 +7,16 @@
     node.classList.add('error-message');
     node.textContent = message;
 
+    // Сообщение удаляется по клику на него
     node.addEventListener('click', function (evt) {
       evt.target.remove();
     });
 
-    document.body.appendChild(node);
+    // Сообщение удаляется через 5 секунд
+    setTimeout(function () {
+      node.remove();
+    }, 5000);
+
+    document.body.insertBefore(node, document.body.firstChild);
   };
 })();

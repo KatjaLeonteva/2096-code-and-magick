@@ -29,6 +29,13 @@
 
   setupForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
+
+    // Удаляем старое сообщение об ошибке
+    var existingError = document.querySelector('.error-message');
+    if (existingError) {
+      existingError.remove();
+    }
+
     window.backend.save(new FormData(setupForm), window.closeDialog, function (errorMessage) {
       window.globalError(errorMessage);
     });
