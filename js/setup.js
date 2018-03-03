@@ -2,24 +2,38 @@
 
 (function () {
   var setupDialog = document.querySelector('.setup');
-  var wizard = setupDialog.querySelector('.wizard');
-
-  var wizardCoat = wizard.querySelector('.wizard-coat');
-  var wizardEyes = wizard.querySelector('.wizard-eyes');
-  var fireball = setupDialog.querySelector('.setup-fireball-wrap');
+  var wizardElement = setupDialog.querySelector('.wizard');
+  var fireballElement = setupDialog.querySelector('.setup-fireball-wrap');
 
   var coatInput = setupDialog.querySelector('[name=coat-color]');
   var eyesInput = setupDialog.querySelector('[name=eyes-color]');
   var fireballInput = setupDialog.querySelector('[name=fireball-color]');
 
+  var wizard = {
+    onEyesChange: function () {},
+    onCoatChange: function () {}
+  };
+
   // Изменение цвета мантии персонажа
-  window.utils.colorizeElement(wizardCoat, 'coat', coatInput);
+  wizardElement.addEventListener('click', function (evt) {
+    if (evt.target.classList.contains('wizard-coat')) {
+      var coatColor = window.utils.colorizeElement(evt.target, 'coat');
+      coatInput.value = coatColor;
+      wizard.onCoatChange(coatColor);
+    }
 
-  // Изменение цвета глаз персонажа
-  window.utils.colorizeElement(wizardEyes, 'eyes', eyesInput);
+    if (evt.target.classList.contains('wizard-eyes')) {
+      var eyesColor = window.utils.colorizeElement(evt.target, 'eyes');
+      eyesInput.value = eyesColor;
+      wizard.onEyesChange(eyesColor);
+    }
+  });
 
-  // Изменение цвета фаербола персонажа
-  window.utils.colorizeElement(fireball, 'fireball', fireballInput);
+  // Изменение цвета фаербола
+  fireballElement.addEventListener('click', function (evt) {
+    var fireballColor = window.utils.colorizeElement(evt.target, 'fireball');
+    fireballInput.value = fireballColor;
+  });
 
   // Перетаскивание артефактов
   var shopElement = document.querySelector('.setup-artifacts-shop');
@@ -55,4 +69,6 @@
     evt.target.style.backgroundColor = '';
     evt.preventDefault();
   });
+
+  window.wizard = wizard;
 })();
